@@ -21,6 +21,7 @@ export default new Vuex.Store({
     state: {
         id : null,
         todos : [],
+        token : null,
     },
     mutations: {
         setId(state, data){
@@ -29,5 +30,14 @@ export default new Vuex.Store({
         addTodo(state, todo){
           this.state.todos.push(todo);
         },
+        saveState(state){
+          console.log("data saved");
+        },
+        filterTodos(state){
+          this.state.todos.sort(function(a,b){return a.done-b.done});
+        },
+        setToken(state, token){
+            this.state.token = token;
+        }
     }
 });

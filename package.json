@@ -13,8 +13,12 @@
   "repository": "<fill-your-repository-here>",
   "dependencies": {
     "@nativescript/theme": "~2.2.1",
+    "@nstudio/nativescript-checkbox": "^1.0.0",
     "@nstudio/nativescript-floatingactionbutton": "^1.1.0",
+    "axios": "0.19.2",
+    "base-64": "^0.1.0",
     "nativescript-localstorage": "^2.0.1",
+    "nativescript-ui-listview": "^8.0.1",
     "nativescript-vue": "~2.4.0",
     "tns-core-modules": "~6.3.0",
     "vuex": "^3.1.2",

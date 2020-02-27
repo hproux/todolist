@@ -1,11 +1,18 @@
 <template>
   <Page actionBarHidden="false">
-    <ActionBar title="">
+    <ActionBar class="navbar" title="ToDo List">
+      <Button width="150em" class="triBtn" text="Trier la data" @tap="filterTodos" />
+
     </ActionBar>
     <GridLayout rows="auto, *">
-      <ListView row="1" for="item in listOfItems" @itemTap="onItemTap">
+      <ListView row="1" for="item in listOfItems" @itemTap="onItemTap" >
         <v-template>
-          <Label :text="item.title" />
+          <GridLayout rows="auto",*>
+            <!--<fab @tap="removeToDo" row="1" class="btnDelete">-</fab>-->
+
+          <Label row="1" :text="item.title" />
+
+          </GridLayout>
         </v-template>
       </ListView>
       <fab @tap="addToDo" row="1" rippleColor="#f1f1f1" class="fab-button">+</fab>
@@ -14,6 +21,8 @@
 </template>
 
 <script>
+//Ranger la data
+//Supprimer la data
 import Todo from '../classes/Todo.js';
 import TodoCreate from "./TodoCreate";
 import TodoDetail from "./TodoDetail";
@@ -32,7 +41,6 @@ export default {
   },
   methods:{
     onItemTap(item){
-      console.log(item);
       this.$navigateTo(TodoDetail,{
         props: {
           task : item,
@@ -41,17 +49,25 @@ export default {
     },
     addToDo(){
       this.$navigateTo(TodoCreate);
+    },
+    removeToDo(){
+
+    },
+    filterTodos(){
+      this.$store.commit("filterTodos");
     }
-  }
+  },
+
+
 };
 </script>
 
 <style scoped lang="scss">
 @import '~@nativescript/theme/scss/variables/blue';
-ActionBar{
+/*ActionBar{
   height:30em;
   background-color: black;
-}
+}*/
 // Custom styles
 .fas {
   @include colorize($color: accent);
@@ -60,17 +76,40 @@ Label{
   text-align: center;
   font-size: 50em;
 }
+
+.triBtn{
+  font-size: 20em;
+  background-color: white;
+  color : black;
+}
+
 .info {
-  font-size: 20;
+  font-size: 20em;
   horizontal-align: center;
   vertical-align: center;
 }
+
+.navbar{
+  text-align: center;
+}
+.btnDelete{
+  height: 50;
+  width: 50; /// this is required on iOS - Android does not require width so you might need to adjust styles
+  margin: 7;
+  background-color: #000000;
+  horizontal-align: right;
+  vertical-align: bottom;
+  color:white;
+  font-size: 30em;
+  font-weight: 100;
+}
+
 .fab-button {
   height: 70;
   width: 70; /// this is required on iOS - Android does not require width so you might need to adjust styles
   margin: 15;
   background-color: #13e9bc;
-  horizontal-align: right;
+  horizontal-align: left;
   vertical-align: bottom;
   color:white;
   font-size: 30em;

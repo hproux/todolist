@@ -1,19 +1,36 @@
 import Vue from "nativescript-vue";
-import store from './store'
+import store from './store';
+import axios from 'axios';
+
+Vue.config.silent = TNS_ENV === 'production'
+
+Vue.registerElement(
+  'CheckBox',
+  () => require('@nstudio/nativescript-checkbox').CheckBox,
+  {
+    model: {
+      prop: 'checked',
+      event: 'checkedChange'
+    }
+  }
+);
+Vue.prototype.axios = axios.create({
+    baseURL: 'https://api.todolist.sherpa.one/',
+});
 Vue.registerElement(
   'Fab',
   () => require('@nstudio/nativescript-floatingactionbutton').Fab
 );
 import Vuex from 'vuex';
-import Home from "./components/Home";
+import Login from "./components/Login";
 new Vue({
   store,
     template: `
         <Frame>
-            <Home />
+            <Login />
         </Frame>`,
 
     components: {
-        Home
+        Login
     }
 }).$start();
