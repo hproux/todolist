@@ -26,7 +26,7 @@
                     <StackLayout class="hr-light"/>
                 </StackLayout>
                 <StackLayout v-show="!isLoggingIn" class="ListPickerGender">
-                    <ListPicker :items="listOfItems" v-model="user.gender" @selectedIndexChange="genderChange"/>
+                    <ListPicker :items="listOfItems" v-model="user.gender"/>
                 </StackLayout>
 
 
@@ -63,10 +63,11 @@
     }
     import axios from "axios";
     import Home from "./Home";
-
+    const connectivity = require("tns-core-modules/connectivity");
     export default {
         data() {
             return {
+                networkStatus: "",
                 isLoggingIn: true,
                 listOfItems: [
                     "Homme", "Femme"
@@ -84,13 +85,27 @@
             Home,
         },
         methods: {
-            genderChange: function () {
-                console.log(this.user.gender);
-            },
             toggleForm() {
                 this.isLoggingIn = !this.isLoggingIn;
             },
+            checkNetwork() {
+                const connectionType = connectivity.getConnectionType();
+                switch (connectionType) {
+                    case connectivity.connectionType.none:
+                        console.log("No network connection available!");
+                        this.$store.commit("setConnectivity",false);
+                        break;
+                    case connectivity.connectionType.wifi:
+                        console.log("You are on wifi!");
+                        this.$store.commit("setConnectivity",true);
 
+                        break;
+                    case connectivity.connectionType.mobile:
+                        console.log("You are on a mobile data network!");
+                        this.$store.commit("setConnectivity",true);
+                        break;
+                }
+            },
             login() {
                 console.log('login');
 
@@ -155,6 +170,9 @@
                     message: message
                 });
             }
+        },
+        created(){
+            this.checkNetwork();
         }
     };
 </script>

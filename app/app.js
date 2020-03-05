@@ -7,7 +7,7 @@ import axios from 'axios';
     baseURL: 'https://api.todolist.sherpa.one/',
     headers: {'Authorization': 'Bearer ' + store.getters.token}
 });*/
-console.log(store.getters.token);
+//console.log(store.getters.token);
 Vue.registerElement(
   'CheckBox',
   () => require('@nstudio/nativescript-checkbox').CheckBox,

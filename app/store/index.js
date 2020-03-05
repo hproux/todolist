@@ -25,9 +25,13 @@ export default new Vuex.Store({
         id: null,
         todos: [],
         token: null,
-        uuid: null
+        uuid: null,
+        connectivity : null,
     },
     mutations: {
+        setConnectivity(state, data){
+          state.connectivity = data;
+        },
         setId(state, data) {
             state.id = data;
         },

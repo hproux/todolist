@@ -3,7 +3,7 @@ hooks/
 !hooks/after-createProject/*.js
 node_modules/
 platforms/
-
+mdphp.txt
 # NativeScript Template
 *.js.map
 !webpack.config.js
