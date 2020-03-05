@@ -53,6 +53,7 @@ export default new Vuex.Store({
             this.state.uuid = uuid;
         },
         loadTodos(state){
+            console.log("appelé 1fois");
             this.state.todos = [];
             axios.defaults.headers.Authorization = 'Bearer ' + this.state.token;
             axios.get("https://api.todolist.sherpa.one/users/" + this.state.uuid + "/todos/")
@@ -63,11 +64,8 @@ export default new Vuex.Store({
                     let done = element.done;
                     let uuid = element.uuid;
                     let todo = new Todo(title,content,done,uuid);
-                    console.log("store api");
-                    console.log(todo);
                     this.state.todos.push(todo);
                 });
-                console.log(result.data);
             }).catch((err) => {
                 console.log(err);
             })

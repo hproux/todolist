@@ -36,7 +36,7 @@ export default {
   ],
   data(){
     return{
-      listOfItems : this.$store.state.todos,
+      listOfItems : null,
     }
   },
   methods:{
@@ -54,11 +54,15 @@ export default {
 
     },
     filterTodos(){
+      console.log("les todos: " + this.$store.state.todos);
+
       this.$store.commit("filterTodos");
     }
   },
-  created: function(){
+  created(){
     this.$store.commit("loadTodos");
+    this.listOfItems = this.$store.state.todos;
+    console.log("les todos: " + this.$store.state.todos);
   }
 
 
