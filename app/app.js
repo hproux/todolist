@@ -2,8 +2,12 @@ import Vue from "nativescript-vue";
 import store from './store';
 import axios from 'axios';
 
-Vue.config.silent = TNS_ENV === 'production'
-
+//Vue.config.silent = TNS_ENV === 'production'
+/*Vue.prototype.axios = axios.create({
+    baseURL: 'https://api.todolist.sherpa.one/',
+    headers: {'Authorization': 'Bearer ' + store.getters.token}
+});*/
+console.log(store.getters.token);
 Vue.registerElement(
   'CheckBox',
   () => require('@nstudio/nativescript-checkbox').CheckBox,
@@ -14,9 +18,7 @@ Vue.registerElement(
     }
   }
 );
-Vue.prototype.axios = axios.create({
-    baseURL: 'https://api.todolist.sherpa.one/',
-});
+
 Vue.registerElement(
   'Fab',
   () => require('@nstudio/nativescript-floatingactionbutton').Fab
@@ -34,3 +36,5 @@ new Vue({
         Login
     }
 }).$start();
+
+

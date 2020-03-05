@@ -107,6 +107,7 @@
                     }
                 }).then((result) => {
                     this.$store.commit("setToken",result.data.token);
+                    this.$store.commit("setUuid",result.data.user.uuid);
                     this.isLoggingIn = true;
                     console.log(result.data);
                     this.$navigateTo(Home);

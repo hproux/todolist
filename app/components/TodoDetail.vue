@@ -15,6 +15,7 @@
 
 <script>
 import Todo from '../classes/Todo.js';
+import axios from "axios";
 
 export default {
 
@@ -40,6 +41,16 @@ export default {
       this.task.item.content = this.content;
       this.task.item.done = this.isChecked;
       this.$store.commit('saveState');
+        axios.defaults.headers.Authorization = 'Bearer ' + this.$store.state.token;
+        console.log(this.task.item.uuid);
+        axios.patch("https://api.todolist.sherpa.one/users/" + this.$store.state.uuid + "/todos/"+this.task.item.uuid, {
+            content: this.task.item.content,
+            done : this.task.item.done,
+        }).then((result) => {
+            console.log(result.data);
+        }).catch((err) => {
+            console.log(err);
+        })
       this.$navigateBack();
     }
   }

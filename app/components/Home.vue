@@ -57,6 +57,9 @@ export default {
       this.$store.commit("filterTodos");
     }
   },
+  created: function(){
+    this.$store.commit("loadTodos");
+  }
 
 
 };
