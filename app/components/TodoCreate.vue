@@ -19,10 +19,14 @@
     export default {
 
         name: 'TodoCreate',
+        props: ['type'],
         data() {
             return {
                 toDo: new Todo(),
             }
+        },
+        created(){
+          console.log(this.type);
         },
         methods: {
             saveToDo() {
