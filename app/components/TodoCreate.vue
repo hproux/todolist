@@ -21,6 +21,7 @@
 </template>
 
 <script>
+    import Upload from '../classes/Upload.js'
     import Todo from '../classes/Todo.js';
     import axios from "axios";
     import { EventData, Observable, fromObject } from "tns-core-modules/data/observable";
@@ -28,6 +29,7 @@
     import { View } from 'tns-core-modules/ui/core/view';
     import { takePicture, requestPermissions } from "nativescript-camera";
     const vr = require('nativescript-videorecorder');
+
 
     export default {
 
@@ -86,20 +88,25 @@
             saveToDoVideo() {
                 if (this.toDo.title !== "") {
                     var options = {
-                        saveToGallery: false,
+                        saveToGallery: true,
                         duration: 10,
-                        format: 'mp4',
-                        size: 1000,
-                        hd: true,
-                        explanation: 'Prendre une video'
+                        size: 0,
+                        hd: false,
                     }
 
                     var videorecorder = new vr.VideoRecorder(options);
 
                     videorecorder.record().then((data)=>{
-                        console.log(data.file)
+                        console.log("cloudinary");
+                        console.log(data.file);
+
+
+
+
+
                     }).catch((err)=>{
                         console.log(err);
+                        console.log("cloudinary");
                         alert('Impossible de prendre une video, veuillez réessayer');
                     })
                 } else {
