@@ -67,24 +67,11 @@
                         let that = this;
                         requestPermissions().then(
                             () => {
-                                takePicture({ width: 320, height: 240, keepAspectRatio: true, saveToGallery: false, allowsEditing: false }).
+                                takePicture({ width: 320, height: 240, keepAspectRatio: true, saveToGallery: true, allowsEditing: false }).
                                 then((imageAsset) => {
                                         that.cameraImage = imageAsset;
-                                        imageAsset.getImageAsync(function (nativeImage) {
-                                            let scale = 1;
-                                            let actualWidth = 0;
-                                            let actualHeight = 0;
-                                            if (imageAsset.android) {
-                                                // get the current density of the screen (dpi) and divide it by the default one to get the scale
-                                                scale = nativeImage.getDensity() / android.util.DisplayMetrics.DENSITY_DEFAULT;
-                                                actualWidth = nativeImage.getWidth();
-                                                actualHeight = nativeImage.getHeight();
-                                            } else {
-                                                scale = nativeImage.scale;
-                                                actualWidth = nativeImage.size.width * scale;
-                                                actualHeight = nativeImage.size.height * scale;
-                                            }
-                                        });
+
+                                        console.log(this.cameraImage.ob);
                                     },
                                     (err) => {
                                         console.log("Error -> " + err.message);
@@ -92,7 +79,6 @@
                             },
                             () => alert('permissions rejected')
                         );
-
                 } else {
                     alert("Le titre n'est pas rempli!");
                 }
@@ -103,7 +89,7 @@
                         saveToGallery: false,
                         duration: 10,
                         format: 'mp4',
-                        size: 10,
+                        size: 1000,
                         hd: true,
                         explanation: 'Prendre une video'
                     }
