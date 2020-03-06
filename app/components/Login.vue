@@ -64,6 +64,7 @@
     import axios from "axios";
     import Home from "./Home";
     const connectivity = require("tns-core-modules/connectivity");
+
     export default {
         data() {
             return {

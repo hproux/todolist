@@ -14,8 +14,7 @@
         </StackLayout>
         <StackLayout v-if="type=='video'">
             <TextField class="title" v-model:text="toDo.title" hint="Entrez le titre ..."/>
-            <TextView class="content" v-model:text="toDo.content" hint="Description ..."/>
-            <Button class="validate" text="Valider" @tap="saveToDoVideo"/>
+            <Button class="validate" text="Prendre une video" @tap="saveToDoVideo"/>
         </StackLayout>
 
     </Page>
@@ -28,6 +27,7 @@
     import { Page } from "tns-core-modules/ui/page";
     import { View } from 'tns-core-modules/ui/core/view';
     import { takePicture, requestPermissions } from "nativescript-camera";
+    const vr = require('nativescript-videorecorder');
 
     export default {
 
@@ -62,7 +62,6 @@
                 }
             },
             saveToDoPhoto(args) {
-                console.log("photo");
                 if (this.toDo.title !== "") {
                         let page = (args.object).page;
                         let that = this;
@@ -99,10 +98,26 @@
                 }
             },
             saveToDoVideo() {
-                console.log("video");
-                if (this.toDo.title !== "" && this.toDo.content !== "") {
+                if (this.toDo.title !== "") {
+                    var options = {
+                        saveToGallery: false,
+                        duration: 10,
+                        format: 'mp4',
+                        size: 10,
+                        hd: true,
+                        explanation: 'Prendre une video'
+                    }
+
+                    var videorecorder = new vr.VideoRecorder(options);
+
+                    videorecorder.record().then((data)=>{
+                        console.log(data.file)
+                    }).catch((err)=>{
+                        console.log(err);
+                        alert('Impossible de prendre une video, veuillez réessayer');
+                    })
                 } else {
-                    alert("Tous les champs ne sont pas remplis!");
+                    alert("Le titre n'est pas rempli!");
                 }
             }
         }
