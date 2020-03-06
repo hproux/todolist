@@ -3,10 +3,20 @@
         <ActionBar class="navbar" title="Ajouter une tâche">
             <NavigationButton text="Go back" android.systemIcon="ic_menu_back" @tap="$navigateBack"/>
         </ActionBar>
-        <StackLayout>
+        <StackLayout v-if="type=='text'">
             <TextField class="title" v-model:text="toDo.title" hint="Entrez le titre ..."/>
             <TextView class="content" v-model:text="toDo.content" hint="Description ..."/>
             <Button class="validate" text="Valider" @tap="saveToDo"/>
+        </StackLayout>
+        <StackLayout v-if="type=='photo'">
+            <TextField class="title" v-model:text="toDo.title" hint="Entrez le titre ..."/>
+            <TextView class="content" v-model:text="toDo.content" hint="Description ..."/>
+            <Button class="validate" text="Valider" @tap="saveToDoPhoto"/>
+        </StackLayout>
+        <StackLayout v-if="type=='video'">
+            <TextField class="title" v-model:text="toDo.title" hint="Entrez le titre ..."/>
+            <TextView class="content" v-model:text="toDo.content" hint="Description ..."/>
+            <Button class="validate" text="Valider" @tap="saveToDoVideo"/>
         </StackLayout>
 
     </Page>
@@ -43,6 +53,20 @@
                         console.log(err);
                     })
                     this.$navigateBack();
+                } else {
+                    alert("Tous les champs ne sont pas remplis!");
+                }
+            },
+            saveToDoPhoto() {
+                console.log("photo");
+                if (this.toDo.title !== "" && this.toDo.content !== "") {
+                } else {
+                    alert("Tous les champs ne sont pas remplis!");
+                }
+            },
+            saveToDoVideo() {
+                console.log("video");
+                if (this.toDo.title !== "" && this.toDo.content !== "") {
                 } else {
                     alert("Tous les champs ne sont pas remplis!");
                 }
