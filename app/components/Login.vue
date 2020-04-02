@@ -61,8 +61,20 @@
     if (!global.atob) {
         global.atob = decode;
     }
-    import axios from "axios";
     import Home from "./Home";
+    const LoadingIndicator = require('@nstudio/nativescript-loading-indicator').LoadingIndicator;
+    const Mode = require('@nstudio/nativescript-loading-indicator').Mode;
+    const loader = new LoadingIndicator();
+    const loginOpt = {
+        message: "Connexion au compte",
+        details: 'Veuillez patienter...',
+        userInteractionEnabled: false,
+    };
+    const registerOpt = {
+        message: "Création du compte",
+        details: 'Veuillez patienter...',
+        userInteractionEnabled: false,
+    };
     const connectivity = require("tns-core-modules/connectivity");
 
     export default {
@@ -89,24 +101,6 @@
             toggleForm() {
                 this.isLoggingIn = !this.isLoggingIn;
             },
-            checkNetwork() {
-                const connectionType = connectivity.getConnectionType();
-                switch (connectionType) {
-                    case connectivity.connectionType.none:
-                        console.log("No network connection available!");
-                        this.$store.commit("setConnectivity",false);
-                        break;
-                    case connectivity.connectionType.wifi:
-                        console.log("You are on wifi!");
-                        this.$store.commit("setConnectivity",true);
-
-                        break;
-                    case connectivity.connectionType.mobile:
-                        console.log("You are on a mobile data network!");
-                        this.$store.commit("setConnectivity",true);
-                        break;
-                }
-            },
             login() {
                 console.log('login');
 
@@ -116,21 +110,25 @@
                     );
                     return;
                 }
-                axios.post("https://api.todolist.sherpa.one/users/signin", {},{
+                loader.show(loginOpt);
+                this.$axios.post("https://api.todolist.sherpa.one/users/signin", {},{
                     auth : {
                         username: this.user.email,
                         password: this.user.password,
                     }
                 }).then((result) => {
+                    loader.hide();
                     this.$store.commit("setToken",result.data.token);
                     this.$store.commit("setUuid",result.data.user.uuid);
                     this.isLoggingIn = true;
                     console.log(result.data);
                     this.$navigateTo(Home);
                 }).catch((err) => {
+                    loader.hide();
+                    alert('Une erreur est survenue');
                     console.log(err.message);
                 })
-
+                loader.hide();
             },
 
             register() {
@@ -141,17 +139,22 @@
                     );
                     return;
                 }
+                loader.show(registerOpt);
                 let gender = this.user.gender ? "male" : "female";
-                axios.post("https://api.todolist.sherpa.one/users/signup", {
+                this.$axios.post("https://api.todolist.sherpa.one/users/signup", {
                     email: this.user.email,
                     firstname: this.user.prenom,
                     lastname: this.user.nom,
                     gender: gender
                 }).then((result) => {
+                    loader.hide();
+                    alert("Mot de passe à conserver: "+result.data.password);
                     console.log(result.data.password);
                     this.user.password = result.data.password;
                     this.isLoggingIn = true;
                 }).catch((err) => {
+                    loader.hide();
+                    alert('Une erreur est survenue');
                     console.log(err.message);
                 })
             },
@@ -171,9 +174,6 @@
                     message: message
                 });
             }
-        },
-        created(){
-            this.checkNetwork();
         }
     };
 </script>
