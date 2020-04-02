@@ -1,7 +1,7 @@
 <template>
   <Page actionBarHidden="false">
     <ActionBar class="navbar" title="ToDo List">
-      <Button width="150em" class="triBtn" text="Trier la data" @tap="filterTodos" />
+      <Button width="200em" class="triBtn" text="Trier les données" @tap="filterTodos" />
 
     </ActionBar>
     <GridLayout rows="auto, *">
@@ -24,13 +24,10 @@
 </template>
 
 <script>
-//Ranger la data
-//Supprimer la data
 import Todo from '../classes/Todo.js';
 import TodoCreate from "./TodoCreate";
 import TodoDetail from "./TodoDetail";
 
-import * as ApplicationSettings from "application-settings";
 export default {
   name: 'Home',
   components : [
@@ -104,6 +101,7 @@ export default {
     }
   },
   created(){
+    console.log("test");
     this.showBtns = false;
     this.$store.commit("loadTodos");
     this.listOfItems = this.$store.state.todos;

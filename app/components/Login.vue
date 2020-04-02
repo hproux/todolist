@@ -111,7 +111,7 @@
                     return;
                 }
                 loader.show(loginOpt);
-                this.$axios.post("https://api.todolist.sherpa.one/users/signin", {},{
+                this.$axios.post("users/signin", {},{
                     auth : {
                         username: this.user.email,
                         password: this.user.password,
@@ -141,7 +141,7 @@
                 }
                 loader.show(registerOpt);
                 let gender = this.user.gender ? "male" : "female";
-                this.$axios.post("https://api.todolist.sherpa.one/users/signup", {
+                this.$axios.post("users/signup", {
                     email: this.user.email,
                     firstname: this.user.prenom,
                     lastname: this.user.nom,

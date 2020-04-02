@@ -4,7 +4,6 @@ import localStorage from 'nativescript-localstorage';
 import axios from 'axios';
 import Todo from '../classes/Todo.js';
 import Utils from '../classes/Utils.js';
-import * as ApplicationSettings from "application-settings";
 
 Vue.use(Vuex);
 const NSVuexPersistent = store => {

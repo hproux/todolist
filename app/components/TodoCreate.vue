@@ -23,7 +23,6 @@
 <script>
     import Upload from '../classes/Upload.js'
     import Todo from '../classes/Todo.js';
-    import axios from "axios";
     import { EventData, Observable, fromObject } from "tns-core-modules/data/observable";
     import { Page } from "tns-core-modules/ui/page";
     import { View } from 'tns-core-modules/ui/core/view';
@@ -49,8 +48,8 @@
                 console.log(this.toDo.title);
                 if (this.toDo.title !== "" && this.toDo.content !== "") {
                     this.$store.commit("addTodo", this.toDo);
-                    axios.defaults.headers.Authorization = 'Bearer ' + this.$store.state.token;
-                    axios.post("https://api.todolist.sherpa.one/users/"+ this.$store.state.uuid+"/todos/", {
+                    this.$axios.defaults.headers.Authorization = 'Bearer ' + this.$store.state.token;
+                    this.$axios.post("users/"+ this.$store.state.uuid+"/todos/", {
                         content: this.toDo.title+"//"+this.toDo.content,
                     }).then((result) => {
                         this.toDo.uuid = result.data.todo.uuid;
@@ -72,11 +71,13 @@
                                 takePicture({ width: 320, height: 240, keepAspectRatio: true, saveToGallery: true, allowsEditing: false }).
                                 then((imageAsset) => {
                                         that.cameraImage = imageAsset;
-
+                                        alert("Erreur Cloudinary");
                                         console.log(this.cameraImage.ob);
                                     },
                                     (err) => {
                                         console.log("Error -> " + err.message);
+                                        alert("Erreur Cloudinary");
+
                                     });
                             },
                             () => alert('permissions rejected')
@@ -98,16 +99,10 @@
 
                     videorecorder.record().then((data)=>{
                         console.log("cloudinary");
-                        console.log(data.file);
-
-
-
-
-
+                        alert("Erreur Cloudinary");
                     }).catch((err)=>{
-                        console.log(err);
                         console.log("cloudinary");
-                        alert('Impossible de prendre une video, veuillez réessayer');
+                        alert('Impossible de prendre une video');
                     })
                 } else {
                     alert("Le titre n'est pas rempli!");

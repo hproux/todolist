@@ -4,7 +4,7 @@
             <NavigationButton text="Go back" android.systemIcon="ic_menu_back" @tap="$navigateBack"/>
             <StackLayout orientation="horizontal">
                 <Label class="navtitle" text="Modifier une tâche" fontSize="18" verticalAlignment="center"/>
-                <Button class="trash" @tap="deletetodo" text="Supprimer"/>
+                <Button class="trash" @tap="deletetodo" text="Supprimer la tâche"/>
             </StackLayout>
         </ActionBar>
         <StackLayout>
@@ -20,8 +20,7 @@
 
 <script>
     import Todo from '../classes/Todo.js';
-    import axios from "axios";
-
+    import Home from "./Home";
 
     export default {
 
@@ -41,26 +40,31 @@
         props: [
             'task',
         ],
+        components: {
+            Home,
+        },
         methods: {
             save() {
-                this.task.item.title = this.title;
-                this.task.item.content = this.content;
-                this.task.item.done = this.isChecked;
-                this.$store.commit('saveState');
-                axios.defaults.headers.Authorization = 'Bearer ' + this.$store.state.token;
-                console.log(this.task.item.uuid);
-                axios.patch("https://api.todolist.sherpa.one/users/" + this.$store.state.uuid + "/todos/" + this.task.item.uuid, {
-                    content: this.task.item.content,
-                    done: this.task.item.done,
+                let that = this;
+                that.task.item.title = that.title;
+                that.task.item.content = that.content;
+                that.task.item.done = that.isChecked;
+                that.$store.commit('saveState');
+                that.$axios.defaults.headers.Authorization = 'Bearer ' + that.$store.state.token;
+                console.log(that.task.item.uuid);
+                that.$axios.patch("users/" + this.$store.state.uuid + "/todos/" + that.task.item.uuid, {
+                    content: that.task.item.content,
+                    done: that.task.item.done,
                 }).then((result) => {
                     console.log(result.data);
                 }).catch((err) => {
                     console.log(err);
                 })
-                this.$navigateBack();
+                that.$navigateBack();
             },
             deletetodo() {
-                var dialogs = require("tns-core-modules/ui/dialogs");
+                let that = this;
+                let dialogs = require("tns-core-modules/ui/dialogs");
                 dialogs.confirm({
                     title: "Supression d'une tâche",
                     message: "Voulez-vous vraiment supprimer cette tâche ?",
@@ -69,16 +73,16 @@
                 }).then(function (result) {
                     if (result) {
                         console.log("delete");
-                        axios.defaults.headers.Authorization = 'Bearer ' + this.$store.state.token;
-                        this.$navigateBack();
-                        axios.delete("https://api.todolist.sherpa.one/users/" + this.$store.state.uuid + "/todos/" + this.task.item.uuid)
+                        that.$axios.defaults.headers.Authorization = 'Bearer ' + that.$store.state.token;
+                        that.$axios.delete("users/" + that.$store.state.uuid + "/todos/" + that.task.item.uuid)
                             .then((result) => {
-                                console.log("https://api.todolist.sherpa.one/users/" + this.$store.state.uuid + "/todos/" + this.task.item.uuid);
+                                console.log("https://api.todolist.sherpa.one/users/" + that.$store.state.uuid + "/todos/" + that.task.item.uuid);
+                                that.$navigateTo(Home);
 
                             }).catch((err) => {
-                            console.log("error : https://api.todolist.sherpa.one/users/" + this.$store.state.uuid + "/todos/" + this.task.item.uuid);
-
-                            console.log(err);
+                            console.log("error : https://api.todolist.sherpa.one/users/" + that.$store.state.uuid + "/todos/" + that.task.item.uuid);
+                            console.log(err.response.request._response);
+                            that.$navigateTo(Home);
                         })
 
                     }
@@ -101,8 +105,6 @@
 
     .trash {
         horizontal-align: right;
-        width: 50;
-        margin-left: 100;
     }
 
     // Custom styles
