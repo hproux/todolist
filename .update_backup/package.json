@@ -15,7 +15,7 @@
     "@nativescript/theme": "~2.2.1",
     "@nstudio/nativescript-checkbox": "^1.0.0",
     "@nstudio/nativescript-floatingactionbutton": "^1.1.0",
-    "axios": "0.19.2",
+    "axios": "0.21.1",
     "base-64": "^0.1.0",
     "cloudinary": "^1.18.1",
     "cloudinary-core": "^2.8.1",
